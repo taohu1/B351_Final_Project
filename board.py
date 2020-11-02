@@ -59,6 +59,10 @@ class board:
             for j in i:
                 if(j == 3):
                     print(" ", end =" ")
+                elif(j == 1):
+                    print("x", end = " ")
+                elif(j == 2):
+                    print("o", end = " ")
                 else:
                     print(j, end=" ")
             print()
