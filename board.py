@@ -52,8 +52,20 @@ class board:
         temp = self.board[current]
         self.board[move] = self.board[current]
         self.board[current] = temp
+
     # print the board representation
     def print_board(self):
+        indexes = [[-1,-1,0,-1,-1], [-1,7,-1,1,-1], [6,-1,8,-1,2], [-1,5,-1,3,-1], [-1,-1,4,-1,-1]]
+        print("Position indexes are: ")
+        for i in indexes:
+            for j in i:
+                if(j < 0):
+                    print(" ", end = " ")
+                else:
+                    print(j, end = " ")
+            print()
+
+        print("The board is (0 represents empty spot, x is player 1, o is player 2): ")
         matrix = [[3,3,self.board[0],3,3],[3,self.board[7],3,self.board[1],3],[self.board[6],3,self.board[8], 3, self.board[2]],[3,self.board[5], 3,self.board[3],3], [3,3,self.board[4], 3,3]]
         for i in matrix:
             for j in i:
