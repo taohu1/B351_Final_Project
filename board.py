@@ -6,19 +6,43 @@ class board:
     def spot_empty(self, spot):
         return self.board[spot] == 0
 
+    # returns list of adjacent kewai positions
+    def adjacent_kewai(self, spot):
+      res = []
+      if spot == 7:
+        res.append(0)
+        res.append(6)
+      if spot == 0:
+        res.append(7)
+        res.append(1)
+      else:
+        res.append(spot+1)
+        res.append(spot-1)
+
+    # check if the current position is adjacent to the other player's piece
+    def adjacent_to_opponent(self, spot):
+      adjacents = self.adjacent_kewai(spot)
+      player = self.board[spot]
+      for adj in adjacents:
+        if self.board[adj] != 0 and self.board[adj] != player:
+          return True
+      return False
+
     # check if a move is valid
     def valid_move(self,current, move):
-        # from kewai to kewai
-        if(move!=8 and ((move == current+1) or (current == 7 or move == 0))):
-            return self.spot_empty(move)
+        # can't move something that isn't there
+        # nor can you move to somewhere occupied
+        if self.spot_empty(current) or not self.spot_empty(move):
+          return False
         # from kewai to putahi
-        elif(move == 8 and (current >=0 and current <=7)):
-            return self.spot_empty(move)
+        if move == 8:
+          return self.adjacent_to_opponent(current)
+        # from kewai to kewai
+        if current != 8:
+          return move in self.adjacent_kewai(current)
         # from putahi to kewai
-        elif(current == 8 and (move >=0 and move <=7)):
-            return self.spot_empty(move)
         else:
-            return False
+          return True # it's always valid to move from putahi to empty kewai
 
     # return a list of potential valid moves
     def get_all_valid_move(self, current):
