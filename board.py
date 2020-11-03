@@ -114,6 +114,10 @@ class board:
           self.board[current] = temp
           self.flip_turn()
 
+    # TODO: implement undo_move function
+    def undo_move(self):
+      return None
+
     # print the board representation
     def print_board(self):
         print("*******************************************\n")
@@ -179,6 +183,33 @@ class ManualPlayer:
     pos = input("What piece do you want to move?\n")
     mv = input("Where do you want to move it?\n")
     return int(pos), int(mv)
+
+# TODO: implement minimax AI player
+
+class MiniMaxPlayer:
+  def __init__(self, board, max_depth):
+    self.board = board
+    self.md = max_depth
+
+  p1_win = 10
+  tie = 0
+  p2_win = -10
+
+  def heuristic(self):
+    p1_s = 0
+    p2_s = 0
+    b = self.board
+    if b.board[8] == 1:
+      p1_s += 5
+    elif b.board[8] == 2:
+      p2_s += 5
+    return p1_s - p2_s
+
+  def minimax(self):
+    b = self.board
+    md = self.md
+    # if b.game_over():
+
 
 
 if __name__ == "__main__":
