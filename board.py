@@ -1,4 +1,5 @@
 import random
+import time
 class board:
     def __init__(self):
         self.board = [1,1,1,1,2,2,2,2,0] #initialization of the board
@@ -90,7 +91,23 @@ class board:
     # function sto make a move, has to call valid move to check if the move is valid first!
     def make_move(self, current, move):
         if not self.valid_move(current, move):
-          print("ope, invalid move there bud... try again\n")
+          print("///-\\\\\\")
+          print("|^   ^|")
+          print("|O   O|")
+          print("|  ~  |")
+          print(" \\ o /")
+          print("  | |  ")
+          time.sleep(1)
+          print("Ope, invalid move there bud...")
+          time.sleep(1)
+          print(".")
+          time.sleep(1)
+          print(".")
+          time.sleep(1)
+          print(".")
+          time.sleep(1)
+          print("Try again!")
+          time.sleep(1)
         else:
           temp = self.board[move]
           self.board[move] = self.board[current]
@@ -99,17 +116,22 @@ class board:
 
     # print the board representation
     def print_board(self):
+        print("*******************************************\n")
+        print("********* It is Player " + str(self.turn) + "'s turn. **********\n")
+        print("*******************************************\n")
         indexes = [[-1,-1,0,-1,-1], [-1,7,-1,1,-1], [6,-1,8,-1,2], [-1,5,-1,3,-1], [-1,-1,4,-1,-1]]
         print("Position indicies are: ")
+        print()
         for i in indexes:
             for j in i:
                 if(j < 0):
-                    print(" ", end = " ")
+                    print(" ", end = "   ")
                 else:
-                    print(j, end = " ")
+                    print(j, end = "   ")
             print()
-        print("It is Player " + str(self.turn) + "'s turn.\n")
+            print()
         print("The board is (0 represents empty spot, x is player 1, o is player 2): ")
+        print()
         matrix = [[3,3,self.board[0],3,3],
                   [3,self.board[7],3,self.board[1],3],
                   [self.board[6],3,self.board[8], 3, self.board[2]],
@@ -118,34 +140,64 @@ class board:
         for i in matrix:
             for j in i:
                 if(j == 3):
-                    print(" ", end =" ")
+                    print(" ", end ="   ")
                 elif(j == 1):
-                    print("x", end = " ")
+                    print("x", end = "   ")
                 elif(j == 2):
-                    print("o", end = " ")
+                    print("o", end = "   ")
                 else:
-                    print(j, end=" ")
+                    print(j, end="   ")
             print()
+            print()
+
+class RandomPlayer:
+  def __init__(self, board):
+    self.board = board
+
+  def find_move(self):
+    b = self.board
+    turn = b.turn
+    pos = b.get_all_position(turn)
+    moves = {}
+    for p in pos:
+      moves[p] = b.get_all_valid_move(p)
+    rem = []
+    for key in moves:
+      if len(moves[key]) == 0:
+        rem.append(key)
+    for key in rem:
+      moves.pop(key)
+    keys = list(moves.keys())
+    chosen_pos = random.choice(keys)
+    return chosen_pos, random.choice(moves[chosen_pos])
+    
+class ManualPlayer:
+  def __init__(self, board):
+    self.board = board
+
+  def find_move(self):
+    pos = input("What piece do you want to move?\n")
+    mv = input("Where do you want to move it?\n")
+    return int(pos), int(mv)
+
+
 if __name__ == "__main__":
     num_moves = 0
     b = board()
+    p1 = RandomPlayer(b)
+    p2 = ManualPlayer(b)
     b.print_board()
     while not b.game_over():
-      pos = b.get_all_position(b.turn)
-      moves = {}
-      for p in pos:
-        moves[p] = b.get_all_valid_move(p)
-      rem = []
-      for key in moves:
-        if len(moves[key]) == 0:
-          rem.append(key)
-      for key in rem:
-        moves.pop(key)
-      keys = list(moves.keys())
-      chosen_pos = random.choice(keys)
-      b.make_move(chosen_pos, random.choice(moves[chosen_pos]))
+      if b.turn == 1:
+        pos, mv = p1.find_move()
+      else:
+        pos, mv = p2.find_move()
+      b.make_move(pos, mv)
       num_moves += 1
       b.print_board()
+      time.sleep(3)
+    print("***********************************************\n")
     print("Game Over! Player " + str(b.turn) + " has lost.\n")
     print("That game took " + str(num_moves) + " turns.\n")
+    print("***********************************************\n")
 
