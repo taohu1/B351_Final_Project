@@ -135,12 +135,15 @@ if __name__ == "__main__":
       moves = {}
       for p in pos:
         moves[p] = b.get_all_valid_move(p)
+      rem = []
       for key in moves:
-        if len(moves[key]) > 0:
-          psn = key
-          mv = moves[key]
-          break
-      b.make_move(psn, mv[0])
+        if len(moves[key]) == 0:
+          rem.append(key)
+      for key in rem:
+        moves.pop(key)
+      keys = list(moves.keys())
+      chosen_pos = random.choice(keys)
+      b.make_move(chosen_pos, random.choice(moves[chosen_pos]))
       num_moves += 1
       b.print_board()
     print("Game Over! Player " + str(b.turn) + " has lost.\n")
