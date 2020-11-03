@@ -185,7 +185,8 @@ if __name__ == "__main__":
     num_moves = 0
     b = board()
     p1 = RandomPlayer(b)
-    p2 = ManualPlayer(b)
+    #p2 = ManualPlayer(b)
+    p2 = RandomPlayer(b)
     b.print_board()
     while not b.game_over():
       if b.turn == 1:
@@ -195,9 +196,11 @@ if __name__ == "__main__":
       b.make_move(pos, mv)
       num_moves += 1
       b.print_board()
-      time.sleep(3)
-    print("***********************************************\n")
-    print("Game Over! Player " + str(b.turn) + " has lost.\n")
-    print("That game took " + str(num_moves) + " turns.\n")
-    print("***********************************************\n")
+      time.sleep(1)
+    print("                   \\|||/")
+    print("                   (o o)")
+    print("****************ooO*(_)*Ooo*********************\n")
+    print("******** Game Over! Player " + str(b.turn) + " has lost. *********\n")
+    print("********** That game took " + str(num_moves) + " turns. ************\n")
+    print("************************************************\n")
 
