@@ -4,6 +4,7 @@ class board:
     def __init__(self):
         self.board = [1,1,1,1,2,2,2,2,0] #initialization of the board
         self.turn = 1 # initially player 1's turn
+        self.history = []
 
     # check if the spot is empty
     def spot_empty(self, spot):
@@ -109,15 +110,18 @@ class board:
           print("Try again!")
           time.sleep(1)
         else:
+          self.history.append(self.board[:])
           temp = self.board[move]
           self.board[move] = self.board[current]
           self.board[current] = temp
           self.flip_turn()
 
-    # TODO: implement undo_move function
+    # undoes the last move done by flipping turn back
+    # and setting board equal to the most recent in history
     def undo_move(self):
-      return None
-
+      self.flip_turn()
+      self.board = self.history.pop()
+  
     # print the board representation
     def print_board(self):
         print("*******************************************\n")
