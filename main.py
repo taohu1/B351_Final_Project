@@ -1,16 +1,15 @@
 from board import *
 from player import *
-if __name__ == "__main__":
+
+def test_AlphaBetaPlayer(num_games):
     randomwins = 0
     abwins = 0
     totalmoves = 0
     start_time = time.time()
-    for i in range(1000): 
+    for i in range(num_games): 
       num_moves = 0
       b = board()
       p1 = RandomPlayer(b)
-      # p2 = ManualPlayer(b)
-      #p2 = RandomPlayer(b)
       p2 = AlphaBetaPlayer(b,4)
       #b.print_board()
       while not b.game_over():
@@ -31,7 +30,11 @@ if __name__ == "__main__":
     print("Out of 1000 games, the AlphaBeta AI won " + str(abwins) + " of them.")
     print("The average number of moves was " + str(totalmoves/1000) + ".")
     print("The total amount of time to play the 1000 games is " + str(elapsed_time) + ".")
-      # b.print_board()
+
+
+if __name__ == "__main__":
+    test_AlphaBetaPlayer(1000)
+    # b.print_board()
       # time.sleep(1)
     #print("                   \\|||/")
     #print("                   (o o)")
