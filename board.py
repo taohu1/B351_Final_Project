@@ -1,5 +1,7 @@
 import random
 import time
+import math
+from player import *
 class board:
     def __init__(self, history = None):
         self.board = [1,1,1,1,2,2,2,2,0] #initialization of the board
@@ -21,7 +23,7 @@ class board:
         res.append(7)
         res.append(1)
       else:
-        res.append(spot+1)7
+        res.append(spot+1)
         res.append(spot-1)
       return res
 
@@ -83,16 +85,6 @@ class board:
     def game_over(self):
       return self.lose_check(self.turn)
     
-    @property
-    def winner(self):
-          if not self.game_over:
-                return None
-          if(self.lose_check(1)):
-                return 2 # p2 win
-          if(self.lose_check(2)):
-                return 1 # p1 win
-          else:
-                return 0 # tie, but impossible in this game
 
     # gives the other player the turn
     def flip_turn(self):
@@ -170,144 +162,6 @@ class board:
             print()
             print()
 
-class RandomPlayer:
-  def __init__(self, board):
-    self.board = board
-
-  def find_move(self):
-    b = self.board
-    turn = b.turn
-    pos = b.get_all_position(turn)
-    moves = {}
-    for p in pos:
-      moves[p] = b.get_all_valid_move(p)
-    rem = []
-    for key in moves:
-      if len(moves[key]) == 0:
-        rem.append(key)
-    for key in rem:
-      moves.pop(key)
-    keys = list(moves.keys())
-    chosen_pos = random.choice(keys)
-    return chosen_pos, random.choice(moves[chosen_pos])
-    
-class ManualPlayer:
-  def __init__(self, board):
-    self.board = board
-
-  def find_move(self):
-    pos = input("What piece do you want to move?\n")
-    mv = input("Where do you want to move it?\n")
-    return int(pos), int(mv)
-
-# TODO: implement minimax AI player
-
-class MiniMaxPlayer:
-  def __init__(self, board, max_depth):
-    self.board = board
-    self.md = max_depth
-
-  p1_win = 10
-  tie = 0
-  p2_win = -10
-
-  def heuristic(self):
-    p1_s = 0
-    p2_s = 0
-    b = self.board
-    if b.board[8] == 1:
-      p1_s += 5
-    elif b.board[8] == 2:
-      p2_s += 5
-    return p1_s - p2_s
-
-  def minimax(self):
-    b = self.board
-    md = self.md
-    # if b.game_over():
-
-class AlphaBetaPlayer:
-  p1_win = 10
-  tie = 0
-  p2_win = -10
-  def __init__(self, board, max_depth):
-    self.board = board
-    self.max_depth = self.max_depth
 
 
-  def heuristic(self):
-    p1_s = 0
-    p2_s = 0
-    b = self.board
-    if b.board[8] == 1:
-      p1_s += 5
-    elif b.board[8] == 2:
-      p2_s += 5
-    return p1_s - p2_s
-
-  def alphaBeta(self, board, depth, alpha, beta):
-    if board.game_over:
-            if(board.winner == 1):
-                return None, self.p1_win
-            elif board.winner == 2:
-                return None, self.p2_win
-            else:
-                return None, self.tie
-        
-    if(depth == 0):
-        return None, self.heuristic()
-    
-    best_move = None
-    best_score = None
-    for move in board.get_all_valid_move(board):
-        board.make_move(current, move)
-        score = self.alphaBeta(board, depth-1, alpha, beta)[1]
-        board.undo_move()
-
-        if board.turn == 0:
-            if best_move is None or score > best_score:
-                best_score = score
-                best_move = move
-                
-                if score > alpha:
-                    alpha = score
-                    if alpha >=beta:
-                        return None, score
-        
-        if board.turn == 1:
-            if best_move is None or score < best_score:
-                best_score = score
-                best_move = move
-
-                if score < beta:
-                    beta = score
-                    if alpha >= beta:
-                        return None, score
-    return best_move, best_score
-
-
-
-if __name__ == "__main__":
-    num_moves = 0
-    b = board()
-    p1 = RandomPlayer(b)
-    p2 = ManualPlayer(b)
-    #p2 = RandomPlayer(b)
-    # p2 = AlphaBetaPlayer(b,)
-    b.print_board()
-    while not b.game_over():
-      if b.turn == 1:
-        pos, mv = p1.find_move()
-      else:
-        pos, mv = p2.find_move()
-      b.make_move(pos, mv)
-      num_moves += 1
-      b.print_board()
-      time.sleep(1)
-    print("                   \\|||/")
-    print("                   (o o)")
-    print("****************ooO*(_)*Ooo*********************\n")
-    print("******** Game Over! Player " + str(b.turn) + " has lost. *********\n")
-    print("********** That game took " + str(num_moves) + " turns. ************\n")
-    print("************************************************\n")
 
