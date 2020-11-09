@@ -1,10 +1,11 @@
 import random
 import time
 class board:
-    def __init__(self):
+    def __init__(self, history = None):
         self.board = [1,1,1,1,2,2,2,2,0] #initialization of the board
         self.turn = 1 # initially player 1's turn
         self.history = []
+        
 
     # check if the spot is empty
     def spot_empty(self, spot):
@@ -20,7 +21,7 @@ class board:
         res.append(7)
         res.append(1)
       else:
-        res.append(spot+1)
+        res.append(spot+1)7
         res.append(spot-1)
       return res
 
@@ -82,6 +83,17 @@ class board:
     def game_over(self):
       return self.lose_check(self.turn)
     
+    @property
+    def winner(self):
+          if not self.game_over:
+                return None
+          if(self.lose_check(1)):
+                return 2 # p2 win
+          if(self.lose_check(2)):
+                return 1 # p1 win
+          else:
+                return 0 # tie, but impossible in this game
+
     # gives the other player the turn
     def flip_turn(self):
       if self.turn == 1:
@@ -214,14 +226,74 @@ class MiniMaxPlayer:
     md = self.md
     # if b.game_over():
 
+class AlphaBetaPlayer:
+  p1_win = 10
+  tie = 0
+  p2_win = -10
+  def __init__(self, board, max_depth):
+    self.board = board
+    self.max_depth = self.max_depth
+
+
+  def heuristic(self):
+    p1_s = 0
+    p2_s = 0
+    b = self.board
+    if b.board[8] == 1:
+      p1_s += 5
+    elif b.board[8] == 2:
+      p2_s += 5
+    return p1_s - p2_s
+
+  def alphaBeta(self, board, depth, alpha, beta):
+    if board.game_over:
+            if(board.winner == 1):
+                return None, self.p1_win
+            elif board.winner == 2:
+                return None, self.p2_win
+            else:
+                return None, self.tie
+        
+    if(depth == 0):
+        return None, self.heuristic()
+    
+    best_move = None
+    best_score = None
+    for move in board.get_all_valid_move(board):
+        board.make_move(current, move)
+        score = self.alphaBeta(board, depth-1, alpha, beta)[1]
+        board.undo_move()
+
+        if board.turn == 0:
+            if best_move is None or score > best_score:
+                best_score = score
+                best_move = move
+                
+                if score > alpha:
+                    alpha = score
+                    if alpha >=beta:
+                        return None, score
+        
+        if board.turn == 1:
+            if best_move is None or score < best_score:
+                best_score = score
+                best_move = move
+
+                if score < beta:
+                    beta = score
+                    if alpha >= beta:
+                        return None, score
+    return best_move, best_score
+
 
 
 if __name__ == "__main__":
     num_moves = 0
     b = board()
     p1 = RandomPlayer(b)
-    #p2 = ManualPlayer(b)
-    p2 = RandomPlayer(b)
+    p2 = ManualPlayer(b)
+    #p2 = RandomPlayer(b)
+    # p2 = AlphaBetaPlayer(b,)
     b.print_board()
     while not b.game_over():
       if b.turn == 1:
