@@ -50,10 +50,40 @@ class MiniMaxPlayer:
       p2_s += 5
     return p1_s - p2_s
 
-  def minimax(self):
-    b = self.board
-    md = self.md
-    # if b.game_over():
+  def minimax(self, board, depth):
+    if board.lose_check(board.turn):
+            if(board.turn == 1):
+                return None, self.p2_win
+            else:
+                return None, self.p1_win
+        
+    if(depth == 0):
+        return None, self.heuristic()
+    
+    best_move = None
+    best_score = None
+    all_positions = board.get_all_position(board.turn)
+    all_moves = []
+    for i in all_positions:
+          moves = board.get_all_valid_move(i)
+          if(len(moves)>0):
+                for j in moves:
+                      all_moves.append((i,j)) # i is current, j is move
+    for current, move in all_moves:
+        board.make_move(current, move)
+        score = self.minimax(board, depth-1)[1]
+        board.undo_move()
+        if best_move is None or (board.turn == 1 and score > best_score) or (board.turn == 2 and score < best_score):
+          best_score = score
+          best_move = move
+    return best_move, best_score
+  
+  def findMove(self):
+    board = self.board
+    move, score = self.minimax(board, self.md)
+    return move[0], move[1]
+    
+
 
 class AlphaBetaPlayer:
   p1_win = 10
