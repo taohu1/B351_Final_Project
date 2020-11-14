@@ -75,10 +75,10 @@ class MiniMaxPlayer:
         board.undo_move()
         if best_move is None or (board.turn == 1 and score > best_score) or (board.turn == 2 and score < best_score):
           best_score = score
-          best_move = move
+          best_move = current,move
     return best_move, best_score
   
-  def findMove(self):
+  def find_move(self):
     board = self.board
     move, score = self.minimax(board, self.md)
     return move[0], move[1]
