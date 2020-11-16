@@ -29,8 +29,6 @@ class ManualPlayer:
         mv = input("Where do you want to move it?\n")
         return int(pos), int(mv)
 
-# TODO: implement minimax AI player
-
 class MiniMaxPlayer:
   def __init__(self, board, max_depth):
     self.board = board
@@ -156,3 +154,54 @@ class AlphaBetaPlayer:
         board = self.board
         move, score = self.alphaBeta(board, self.max_depth, -math.inf, math.inf)
         return move[0], move[1]
+
+class HillClimbingPlayer:
+  def __init__(self, board):
+    self.board = board
+  
+  def center_control(self, b):
+    p1_s = 0
+    p2_s = 0
+    if b.board[8] == 1:
+      p1_s += 5
+    elif b.board[8] == 2:
+      p2_s += 5
+    return p1_s - p2_s
+  
+
+  def heuristic(self):
+    b = self.board
+    return self.center_control(b)
+
+  def find_move(self):
+    b = self.board
+    p = self.board.turn
+    bestmove = None
+    bestscore = None
+    if p == 1:
+      bestscore = -math.inf
+    else:
+      bestscore = math.inf
+    all_positions = b.get_all_position(b.turn)
+    all_moves = []
+    for i in all_positions:
+          moves = b.get_all_valid_move(i)
+          if(len(moves)>0):
+                for j in moves:
+                      all_moves.append((i,j)) # i is current, j is move
+    
+    for current, move in all_moves:
+      b.make_move(current, move)
+      if p == 1:
+        if self.heuristic() > bestscore:
+          bestmove = current, move
+      else:
+        if self.heuristic() < bestscore:
+          bestmove = current, move
+      b.undo_move()
+      return bestmove
+
+
+
+
+
