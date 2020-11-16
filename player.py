@@ -63,16 +63,19 @@ class AlphaBetaPlayer:
     self.board = board
     self.max_depth = max_depth
 
-
-  def heuristic(self):
+  def center_control(self, b):
     p1_s = 0
     p2_s = 0
-    b = self.board
     if b.board[8] == 1:
       p1_s += 5
     elif b.board[8] == 2:
       p2_s += 5
     return p1_s - p2_s
+  
+
+  def heuristic(self):
+    b = self.board
+    return self.center_control(b)
 
   def alphaBeta(self, board, depth, alpha, beta):
     if board.lose_check(board.turn):
