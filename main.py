@@ -39,8 +39,8 @@ def test_AI(num_games, p1, p2):
 
     elapsed_time = time.time() - start_time
 
-    print("Out of " + str(num_games) + " games, the " + p1.toString() +  "  won " + str(p1wins) + " of them.")
-    print("Out of " + str(num_games) + " games, the " + p2.toString() +  "  won " + str(p2wins) + " of them.")
+    print("Out of " + str(num_games) + " games, the " + p1.toString() +  " won " + str(p1wins) + " of them.")
+    print("Out of " + str(num_games) + " games, the " + p2.toString() +  " won " + str(p2wins) + " of them.")
     print(str(num_ties) + " of the games ended in a tie (reached 1000 moves without a winner).")
     print("The average number of moves was " + str(totalmoves/num_games) + ".")
     print("The total amount of time to play the " + str(num_games) + " games is " + str(elapsed_time) + ".")
@@ -149,9 +149,22 @@ def test_MinimaxPlayer(num_games):
     print("The total amount of time to play the " + str(num_games) + " games is " + str(elapsed_time) + ".")
 
 if __name__ == "__main__":
+    # initial board
     b = board()
+    # uncomment ONLY ONE for each of p1 and p2
     p1 = AlphaBetaPlayer(b)
+    #p1 = MiniMaxPlayer(b)
+    #p1 = RandomPlayer(b)
+    #p1 = ManualPlayer(b)
+    #p1 = HillClimbingPlayer_simple(b)
+    #p1 = HillClimbingPlayer(b)
     p2 = RandomPlayer(b)
+    #p2 = AlphaBetaPlayer(b)
+    #p2 = MiniMaxPlayer(b)
+    #p2 = ManualPlayer(b)
+    #p2 = HillClimbingPlayer_simple(b)
+    #p2 = HillClimbingPlayer(b)
+    # you can replace the first argument with the number of games you want to play 
     test_AI(10, p1, p2)
     #test_HillClimber(10000)
     #test_AlphaBetaPlayer(1)

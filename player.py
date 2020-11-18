@@ -141,7 +141,8 @@ class AlphaBetaPlayer:
 
   def heuristic(self):
     b = self.board
-    return (5 * self.center_control(b)) + 3 * self.movable_pieces(b)  + 4 * self.next_to_empty(b)#+ 5 * self.spread_apart(b)
+    #return self.center_control(b)
+    return (500 * self.center_control(b)) + 3 * self.movable_pieces(b)  + 4 * self.next_to_empty(b)#+ 5 * self.spread_apart(b)
   
   def alphaBeta(self, board, depth, alpha, beta):
     if board.lose_check(board.turn):
