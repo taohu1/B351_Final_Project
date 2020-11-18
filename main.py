@@ -9,8 +9,8 @@ def test_HillClimber(num_games):
     for i in range(num_games): 
       num_moves = 0
       b = board()
-      p1 = RandomPlayer(b)
-      p2 = HillClimbingPlayer(b)
+      p1 = HillClimbingPlayer(b)
+      p2 = HillClimbingPlayer_simple(b)
       #b.print_board()
       while not b.game_over():
         if b.turn == 1:
@@ -27,7 +27,7 @@ def test_HillClimber(num_games):
 
     elapsed_time = time.time() - start_time
 
-    print("Out of " + str(num_games) + " games, the Hill Climbing AI won " + str(abwins) + " of them.")
+    print("Out of " + str(num_games) + " games, the dumb Hill Climbing AI won " + str(abwins) + " of them.")
     print("The average number of moves was " + str(totalmoves/num_games) + ".")
     print("The total amount of time to play the " + str(num_games) + " games is " + str(elapsed_time) + ".")
 
@@ -41,8 +41,9 @@ def test_AlphaBetaPlayer(num_games):
       b = board()
       p1 = RandomPlayer(b)
       p2 = AlphaBetaPlayer(b,4)
-      b.print_board()
+      #b.print_board()
       while not b.game_over():
+        print("Move #" + str(num_moves))
         if b.turn == 1:
           pos, mv = p1.find_move()
         else:
@@ -92,8 +93,8 @@ def test_MinimaxPlayer(num_games):
     print("The total amount of time to play the " + str(num_games) + " games is " + str(elapsed_time) + ".")
 
 if __name__ == "__main__":
-    test_HillClimber(10000)
-    #test_AlphaBetaPlayer(1)
+    #test_HillClimber(10000)
+    test_AlphaBetaPlayer(100)
     #test_MinimaxPlayer(10000)
     # b.print_board()
       # time.sleep(1)

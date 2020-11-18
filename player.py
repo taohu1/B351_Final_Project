@@ -1,4 +1,5 @@
 from board import *
+import itertools
 class RandomPlayer:
     def __init__(self, board):
         self.board = board
@@ -95,16 +96,39 @@ class AlphaBetaPlayer:
     p1_s = 0
     p2_s = 0
     if b.board[8] == 1:
-      p1_s += 5
+      p1_s += 1
     elif b.board[8] == 2:
-      p2_s += 5
+      p2_s += 1
     return p1_s - p2_s
   
+  def next_to_empty(self, b):
+    p1_s = 0
+    p2_s = 0
+    pos_of_zero = b.board.index(0)
+    if pos_of_zero != 8:
+      next_to = b.adjacent_kewai(pos_of_zero)
+      for pos in next_to:
+        if b.board[pos] == 1:
+          p1_s += 1
+        else:
+          p2_s += 1
+    return p1_s - p2_s
+
+  def movable_pieces(self, b):
+    p1_pos = b.get_all_position(1)
+    p2_pos = b.get_all_position(2)
+    p1_moves = []
+    p2_moves = []
+    for pos in p1_pos:
+      p1_moves.append(b.get_all_valid_move(pos))
+    for pos in p2_pos:
+      p2_moves.append(b.get_all_valid_move(pos))
+    return len(p1_moves) - len(p2_moves)
 
   def heuristic(self):
     b = self.board
-    return self.center_control(b)
-
+    return 2 * self.movable_pieces(b) + 4 * self.next_to_empty(b)#+ 5 * self.spread_apart(b)
+  
   def alphaBeta(self, board, depth, alpha, beta):
     if board.lose_check(board.turn):
             if(board.turn == 1):
@@ -155,6 +179,59 @@ class AlphaBetaPlayer:
         move, score = self.alphaBeta(board, self.max_depth, -math.inf, math.inf)
         return move[0], move[1]
 
+# function that returns a list of all indices matching given value
+def indices_of(ls, val):
+  res = []
+  for i in range(len(ls)):
+    if ls[i] == val:
+      res.append(i)
+  return res
+
+class HillClimbingPlayer_simple:
+  def __init__(self, board):
+    self.board = board
+  
+  def center_control(self, b):
+    p1_s = 0
+    p2_s = 0
+    if b.board[8] == 1:
+      p1_s += 1
+    elif b.board[8] == 2:
+      p2_s += 1
+    return p1_s - p2_s
+  
+  def heuristic(self):
+    b = self.board
+    return self.center_control(b)
+
+  def find_move(self):
+    b = self.board
+    p = self.board.turn
+    bestmove = None
+    bestscore = None
+    if p == 1:
+      bestscore = -math.inf
+    else:
+      bestscore = math.inf
+    all_positions = b.get_all_position(b.turn)
+    all_moves = []
+    for i in all_positions:
+          moves = b.get_all_valid_move(i)
+          if(len(moves)>0):
+                for j in moves:
+                      all_moves.append((i,j)) # i is current, j is move
+    
+    for current, move in all_moves:
+      b.make_move(current, move)
+      if p == 1:
+        if self.heuristic() > bestscore:
+          bestmove = current, move
+      else:
+        if self.heuristic() < bestscore:
+          bestmove = current, move
+      b.undo_move()
+      return bestmove
+  
 class HillClimbingPlayer:
   def __init__(self, board):
     self.board = board
@@ -163,15 +240,59 @@ class HillClimbingPlayer:
     p1_s = 0
     p2_s = 0
     if b.board[8] == 1:
-      p1_s += 5
+      p1_s += 1
     elif b.board[8] == 2:
-      p2_s += 5
+      p2_s += 1
     return p1_s - p2_s
-  
+  # think about this one more:
+  def spread_apart(self, b):
+    p1_s = 0
+    p2_s = 0
+    p1_inds = indices_of(b.board, 1)
+    p2_inds = indices_of(b.board, 2)
+    for pr in itertools.combinations(p1_inds, 2):
+      if 8 in pr:
+        p1_s += 0
+      if 0 in pr and 7 in pr:
+        p1_s += 0
+      else:
+        p1_s += (abs(pr[0] - pr[1]) - 1)
+    for pr in itertools.combinations(p2_inds, 2):
+      if 8 in pr:
+        p2_s += 0
+      if 0 in pr and 7 in pr:
+        p2_s += 0
+      else:
+        p2_s += (abs(pr[0] - pr[1]) - 1)
+    return p1_s - p2_s
+
+  def next_to_empty(self, b):
+    p1_s = 0
+    p2_s = 0
+    pos_of_zero = b.board.index(0)
+    if pos_of_zero != 8:
+      next_to = b.adjacent_kewai(pos_of_zero)
+      for pos in next_to:
+        if b.board[pos] == 1:
+          p1_s += 1
+        else:
+          p2_s += 1
+    return p1_s - p2_s
+
+  def movable_pieces(self, b):
+    p1_pos = b.get_all_position(1)
+    p2_pos = b.get_all_position(2)
+    p1_moves = []
+    p2_moves = []
+    for pos in p1_pos:
+      p1_moves.append(b.get_all_valid_move(pos))
+    for pos in p2_pos:
+      p2_moves.append(b.get_all_valid_move(pos))
+    return len(p1_moves) - len(p2_moves)
 
   def heuristic(self):
     b = self.board
-    return self.center_control(b)
+    return 12 * self.center_control(b) + 5 * self.movable_pieces(b) + 4 * self.next_to_empty(b)#+ 5 * self.spread_apart(b)
 
   def find_move(self):
     b = self.board
