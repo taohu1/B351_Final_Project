@@ -3,7 +3,10 @@ import itertools
 class RandomPlayer:
     def __init__(self, board):
         self.board = board
-        
+       
+    def toString(self):
+      return "Random Player"
+
     def find_move(self):
         b = self.board
         turn = b.turn
@@ -25,19 +28,25 @@ class ManualPlayer:
     def __init__(self, board):
         self.board = board
 
+    def toString(self):
+      return "Human Player"
+
     def find_move(self):
         pos = input("What piece do you want to move?\n")
         mv = input("Where do you want to move it?\n")
         return int(pos), int(mv)
 
 class MiniMaxPlayer:
-  def __init__(self, board, max_depth):
+  def __init__(self, board):
     self.board = board
-    self.md = max_depth
+    self.md = 4
 
   p1_win = 10
   tie = 0
   p2_win = -10
+  
+  def toString(self):
+    return "MiniMax Player"
 
   def heuristic(self):
     p1_s = 0
@@ -88,9 +97,12 @@ class AlphaBetaPlayer:
   p1_win = 10
   tie = 0
   p2_win = -10
-  def __init__(self, board, max_depth):
+  def __init__(self, board):
     self.board = board
-    self.max_depth = max_depth
+    self.max_depth = 4
+  
+  def toString(self):
+    return "AlphaBeta Player"
 
   def center_control(self, b):
     p1_s = 0
@@ -120,14 +132,16 @@ class AlphaBetaPlayer:
     p1_moves = []
     p2_moves = []
     for pos in p1_pos:
-      p1_moves.append(b.get_all_valid_move(pos))
+      for move in b.get_all_valid_move(pos):
+        p1_moves.append(move)
     for pos in p2_pos:
-      p2_moves.append(b.get_all_valid_move(pos))
+      for move in b.get_all_valid_move(pos):
+        p2_moves.append(move)
     return len(p1_moves) - len(p2_moves)
 
   def heuristic(self):
     b = self.board
-    return 2 * self.movable_pieces(b) + 4 * self.next_to_empty(b)#+ 5 * self.spread_apart(b)
+    return (5 * self.center_control(b)) + 3 * self.movable_pieces(b)  + 4 * self.next_to_empty(b)#+ 5 * self.spread_apart(b)
   
   def alphaBeta(self, board, depth, alpha, beta):
     if board.lose_check(board.turn):
@@ -191,6 +205,9 @@ class HillClimbingPlayer_simple:
   def __init__(self, board):
     self.board = board
   
+  def toString(self):
+    return "dumb Hill Climbing Player"
+  
   def center_control(self, b):
     p1_s = 0
     p2_s = 0
@@ -235,6 +252,9 @@ class HillClimbingPlayer_simple:
 class HillClimbingPlayer:
   def __init__(self, board):
     self.board = board
+  
+  def toString(self):
+    return "Hill Climbing Player"
   
   def center_control(self, b):
     p1_s = 0

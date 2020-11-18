@@ -1,6 +1,51 @@
 from board import *
 from player import *
 
+
+def test_AI(num_games, p1, p2):
+    p1wins = 0
+    p2wins = 0
+    num_ties = 0
+    totalmoves = 0
+    start_time = time.time()
+    for i in range(num_games): 
+      num_moves = 0
+      tie = False
+      b = board()
+      p1.__init__(b)
+      p2.__init__(b)
+      #b.print_board()
+      while not b.game_over():
+        #b.print_board()
+        #time.sleep(2)
+        if num_moves == 1000:
+          tie = True
+          break
+        #print("Move #" + str(num_moves))
+        if b.turn == 1:
+          pos, mv = p1.find_move()
+        else:
+          pos, mv = p2.find_move()
+        b.make_move(pos, mv)
+        num_moves += 1
+      if tie:
+        num_ties += 1
+        tie = False
+      elif b.turn == 1:
+        p2wins += 1
+      else:
+        p1wins += 1
+      totalmoves += num_moves
+
+    elapsed_time = time.time() - start_time
+
+    print("Out of " + str(num_games) + " games, the " + p1.toString() +  "  won " + str(p1wins) + " of them.")
+    print("Out of " + str(num_games) + " games, the " + p2.toString() +  "  won " + str(p2wins) + " of them.")
+    print(str(num_ties) + " of the games ended in a tie (reached 1000 moves without a winner).")
+    print("The average number of moves was " + str(totalmoves/num_games) + ".")
+    print("The total amount of time to play the " + str(num_games) + " games is " + str(elapsed_time) + ".")
+
+
 def test_HillClimber(num_games):
     randomwins = 0
     abwins = 0
@@ -34,23 +79,33 @@ def test_HillClimber(num_games):
 def test_AlphaBetaPlayer(num_games):
     randomwins = 0
     abwins = 0
+    num_ties = 0
     totalmoves = 0
     start_time = time.time()
     for i in range(num_games): 
       num_moves = 0
+      tie = False
       b = board()
       p1 = RandomPlayer(b)
       p2 = AlphaBetaPlayer(b,4)
       #b.print_board()
       while not b.game_over():
-        print("Move #" + str(num_moves))
+        b.print_board()
+        time.sleep(2)
+        if num_moves == 1000:
+          tie = True
+          break
+        #print("Move #" + str(num_moves))
         if b.turn == 1:
           pos, mv = p1.find_move()
         else:
           pos, mv = p2.find_move()
         b.make_move(pos, mv)
         num_moves += 1
-      if b.turn == 1:
+      if tie:
+        num_ties += 1
+        tie = False
+      elif b.turn == 1:
         abwins += 1
       else:
         randomwins += 1
@@ -59,6 +114,7 @@ def test_AlphaBetaPlayer(num_games):
     elapsed_time = time.time() - start_time
 
     print("Out of " + str(num_games) + " games, the AlphaBeta AI won " + str(abwins) + " of them.")
+    print(str(num_ties) + " of the games ended in a tie (reached 1000 moves without a winner).")
     print("The average number of moves was " + str(totalmoves/num_games) + ".")
     print("The total amount of time to play the " + str(num_games) + " games is " + str(elapsed_time) + ".")
 
@@ -93,8 +149,12 @@ def test_MinimaxPlayer(num_games):
     print("The total amount of time to play the " + str(num_games) + " games is " + str(elapsed_time) + ".")
 
 if __name__ == "__main__":
+    b = board()
+    p1 = AlphaBetaPlayer(b)
+    p2 = RandomPlayer(b)
+    test_AI(10, p1, p2)
     #test_HillClimber(10000)
-    test_AlphaBetaPlayer(100)
+    #test_AlphaBetaPlayer(1)
     #test_MinimaxPlayer(10000)
     # b.print_board()
       # time.sleep(1)
