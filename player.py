@@ -94,9 +94,9 @@ class MiniMaxPlayer:
 
 
 class AlphaBetaPlayer:
-  p1_win = 10
+  p1_win = 1000
   tie = 0
-  p2_win = -10
+  p2_win = -1000
   def __init__(self, board):
     self.board = board
     self.max_depth = 4
