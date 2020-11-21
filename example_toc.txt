@@ -1,0 +1,74 @@
+Welcome to the Tournament of Champions!
+For P1 weights 6, 0, and 7, the results are:
+Out of 1000 games, the Genetic Algorithm Alpha Beta Player won 999 of them.
+Out of 1000 games, the Random Player won 0 of them.
+1 of the games ended in a tie (reached 500 moves without a winner).
+The average number of moves was 64.383.
+The total amount of time to play the 1000 games is 34.68192410469055.
+Player 1 is better.
+For P1 weights 5, 10, and 3, the results are:
+Out of 1000 games, the Genetic Algorithm Alpha Beta Player won 334 of them.
+Out of 1000 games, the Random Player won 0 of them.
+666 of the games ended in a tie (reached 500 moves without a winner).
+The average number of moves was 336.006.
+The total amount of time to play the 1000 games is 167.25942182540894.
+Player 1 is better.
+For P1 weights 6, 9, and 9, the results are:
+Out of 1000 games, the Genetic Algorithm Alpha Beta Player won 998 of them.
+Out of 1000 games, the Random Player won 0 of them.
+2 of the games ended in a tie (reached 500 moves without a winner).
+The average number of moves was 66.626.
+The total amount of time to play the 1000 games is 36.397849798202515.
+Player 1 is better.
+For P1 weights 4, 8, and 7, the results are:
+Out of 1000 games, the Genetic Algorithm Alpha Beta Player won 999 of them.
+Out of 1000 games, the Random Player won 0 of them.
+1 of the games ended in a tie (reached 500 moves without a winner).
+The average number of moves was 67.625.
+The total amount of time to play the 1000 games is 36.91697406768799.
+Player 1 is better.
+For P1 weights 4, 9, and 10, the results are:
+Out of 1000 games, the Genetic Algorithm Alpha Beta Player won 1000 of them.
+Out of 1000 games, the Random Player won 0 of them.
+0 of the games ended in a tie (reached 500 moves without a winner).
+The average number of moves was 64.17.
+The total amount of time to play the 1000 games is 35.61186480522156.
+Player 1 is better.
+For P1 weights 6, 9, and 1, the results are:
+Out of 1000 games, the Genetic Algorithm Alpha Beta Player won 324 of them.
+Out of 1000 games, the Random Player won 0 of them.
+676 of the games ended in a tie (reached 500 moves without a winner).
+The average number of moves was 340.916.
+The total amount of time to play the 1000 games is 170.13799619674683.
+Player 1 is better.
+For P1 weights 4, 10, and 9, the results are:
+Out of 1000 games, the Genetic Algorithm Alpha Beta Player won 998 of them.
+Out of 1000 games, the Random Player won 0 of them.
+2 of the games ended in a tie (reached 500 moves without a winner).
+The average number of moves was 68.504.
+The total amount of time to play the 1000 games is 37.42761015892029.
+Player 1 is better.
+For P1 weights 7, 2, and 0, the results are:
+Out of 1000 games, the Genetic Algorithm Alpha Beta Player won 355 of them.
+Out of 1000 games, the Random Player won 0 of them.
+645 of the games ended in a tie (reached 500 moves without a winner).
+The average number of moves was 325.695.
+The total amount of time to play the 1000 games is 155.68645811080933.
+Player 1 is better.
+For P1 weights 6, 5, and 8, the results are:
+Out of 1000 games, the Genetic Algorithm Alpha Beta Player won 999 of them.
+Out of 1000 games, the Random Player won 0 of them.
+1 of the games ended in a tie (reached 500 moves without a winner).
+The average number of moves was 66.045.
+The total amount of time to play the 1000 games is 35.81449508666992.
+Player 1 is better.
+For P1 weights 6, 7, and 7, the results are:
+Out of 1000 games, the Genetic Algorithm Alpha Beta Player won 998 of them.
+Out of 1000 games, the Random Player won 0 of them.
+2 of the games ended in a tie (reached 500 moves without a winner).
+The average number of moves was 69.35.
+The total amount of time to play the 1000 games is 37.86522698402405.
+Player 1 is better.
+The best win rate came from the GAPlayer with weights 4, 9, 10
+The win rate for this player was 1.0
+The average number of moves for this player is 64.17
