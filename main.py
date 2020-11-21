@@ -4,9 +4,9 @@ from genetic import *
 import random
 
 def randomize_weights(p):
-  p.c1 = random.randint(0,10)
-  p.c2 = random.randint(0,10)
-  p.c3 = random.randint(0,10)
+  p.c1 = random.randint(0,100)
+  p.c2 = random.randint(0,100)
+  p.c3 = random.randint(0,100)
 
 def generate_population(N):
   pop = []
@@ -149,8 +149,8 @@ def test_AI(num_games, p1, p2):
         p2.__init__(b)
       #b.print_board()
       while not b.game_over():
-        #b.print_board()
-        #time.sleep(2)
+        b.print_board()
+        time.sleep(1)
         if num_moves == 500:
           tie = True
           break
@@ -186,23 +186,23 @@ if __name__ == "__main__":
     # initial board
     b = board()
     # uncomment ONLY ONE for each of p1 and p2
-    #p1 = AlphaBetaPlayer(b)
-    p1 = MiniMaxPlayer(b)
+    p1 = AlphaBetaPlayer(b)
+    #p1 = MiniMaxPlayer(b)
     #p1 = RandomPlayer(b)
     #p1 = ManualPlayer(b)
     #p1 = HillClimbingPlayer(b)
-    p2 = RandomPlayer(b)
+    #p2 = RandomPlayer(b)
     #p2 = AlphaBetaPlayer(b)
     #p2 = MiniMaxPlayer(b)
     #p2 = ManualPlayer(b)
-    #p2 = HillClimbingPlayer(b)
+    p2 = HillClimbingPlayer(b)
     # you can replace the first argument with the number of games you want to play 
-    test_AI(1000, p1, p2)
-    c1 = random.randint(0,10)
-    c2 = random.randint(0,10)
-    c3 = random.randint(0,10)
-    ga = GAPlayer(b, c1, c2, c3)
-    ga_opp = RandomPlayer(b)
+    test_AI(1, p1, p2)
+    #c1 = random.randint(0,10)
+    #c2 = random.randint(0,10)
+    #c3 = random.randint(0,10)
+    #ga = GAPlayer(b, c1, c2, c3)
+    #ga_opp = RandomPlayer(b)
     #genetic_algorithm(10, 10, 1000)
     #TournamentOfChampions(ga, ga_opp, 10)
     #test_GA(100, ga, ga_opp)
