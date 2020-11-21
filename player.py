@@ -44,23 +44,56 @@ class MiniMaxPlayer:
     self.board = board
     self.md = 4
 
-  p1_win = 10
+  p1_win = 1000
   tie = 0
-  p2_win = -10
+  p2_win = -1000
   
   def toString(self):
     return "MiniMax Player"
 
-  def heuristic(self):
+  def center_control(self, b):
     p1_s = 0
     p2_s = 0
-    b = self.board
     if b.board[8] == 1:
-      p1_s += 5
+      p1_s += 1
     elif b.board[8] == 2:
-      p2_s += 5
+      p2_s += 1
+    return p1_s - p2_s
+  
+  def next_to_empty(self, b):
+    p1_s = 0
+    p2_s = 0
+    pos_of_zero = b.board.index(0)
+    if pos_of_zero != 8:
+      next_to = b.adjacent_kewai(pos_of_zero)
+      for pos in next_to:
+        if b.board[pos] == 1:
+          p1_s += 1
+        else:
+          p2_s += 1
     return p1_s - p2_s
 
+  def movable_pieces(self, b):
+    p1_pos = b.get_all_position(1)
+    p2_pos = b.get_all_position(2)
+    p1_moves = []
+    p2_moves = []
+    for pos in p1_pos:
+      for move in b.get_all_valid_move(pos):
+        p1_moves.append(move)
+    for pos in p2_pos:
+      for move in b.get_all_valid_move(pos):
+        p2_moves.append(move)
+    return len(p1_moves) - len(p2_moves)
+
+  def heuristic(self):
+    b = self.board
+    #return self.center_control(b)
+    # initial weights for heuristic
+    #return 12 * self.center_control(b) + 1 * self.movable_pieces(b)  + 1 * self.next_to_empty(b)#+ 5 * self.spread_apart(b)
+    # genetic algorithm calculated weights for heuristic
+    return 16 * self.center_control(b) + 92 * self.movable_pieces(b)  + 46 * self.next_to_empty(b)#+ 5 * self.spread_apart(b)
+    
   def minimax(self, board, depth):
     if board.lose_check(board.turn):
             if(board.turn == 1):
@@ -145,7 +178,10 @@ class AlphaBetaPlayer:
   def heuristic(self):
     b = self.board
     #return self.center_control(b)
-    return 4 * self.center_control(b) + 7 * self.movable_pieces(b)  + 8 * self.next_to_empty(b)#+ 5 * self.spread_apart(b)
+    # initial weights for heuristic
+    #return 12 * self.center_control(b) + 1 * self.movable_pieces(b)  + 1 * self.next_to_empty(b)#+ 5 * self.spread_apart(b)
+    # genetic algorithm calculated weights for heuristic
+    return 16 * self.center_control(b) + 92 * self.movable_pieces(b)  + 46 * self.next_to_empty(b)#+ 5 * self.spread_apart(b)
   
   def alphaBeta(self, board, depth, alpha, beta):
     if board.lose_check(board.turn):
@@ -204,54 +240,6 @@ def indices_of(ls, val):
     if ls[i] == val:
       res.append(i)
   return res
-
-class HillClimbingPlayer_simple:
-  def __init__(self, board):
-    self.board = board
-  
-  def toString(self):
-    return "dumb Hill Climbing Player"
-  
-  def center_control(self, b):
-    p1_s = 0
-    p2_s = 0
-    if b.board[8] == 1:
-      p1_s += 1
-    elif b.board[8] == 2:
-      p2_s += 1
-    return p1_s - p2_s
-  
-  def heuristic(self):
-    b = self.board
-    return self.center_control(b)
-
-  def find_move(self):
-    b = self.board
-    p = self.board.turn
-    bestmove = None
-    bestscore = None
-    if p == 1:
-      bestscore = -math.inf
-    else:
-      bestscore = math.inf
-    all_positions = b.get_all_position(b.turn)
-    all_moves = []
-    for i in all_positions:
-          moves = b.get_all_valid_move(i)
-          if(len(moves)>0):
-                for j in moves:
-                      all_moves.append((i,j)) # i is current, j is move
-    
-    for current, move in all_moves:
-      b.make_move(current, move)
-      if p == 1:
-        if self.heuristic() > bestscore:
-          bestmove = current, move
-      else:
-        if self.heuristic() < bestscore:
-          bestmove = current, move
-      b.undo_move()
-      return bestmove
 
 # implementation for HillClimbing Player
 class HillClimbingPlayer:
@@ -317,7 +305,10 @@ class HillClimbingPlayer:
 
   def heuristic(self):
     b = self.board
-    return 12 * self.center_control(b) + 5 * self.movable_pieces(b) + 4 * self.next_to_empty(b)#+ 5 * self.spread_apart(b)
+    # initial weights for heuristic
+    #return 12 * self.center_control(b) + 1 * self.movable_pieces(b) + 1 * self.next_to_empty(b)#+ 5 * self.spread_apart(b)
+    # genetic algorithm calculated weights for heuristic
+    return 16 * self.center_control(b) + 92 * self.movable_pieces(b)  + 46 * self.next_to_empty(b)#+ 5 * self.spread_apart(b)
 
   def find_move(self):
     b = self.board

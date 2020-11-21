@@ -107,3 +107,4 @@ class GAPlayer:
         board = self.board
         move, score = self.alphaBeta(board, self.max_depth, -math.inf, math.inf)
         return move[0], move[1]
+

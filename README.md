@@ -1,21 +1,23 @@
 # B351_Final_Project
-## How to build this project?
-No dependencies is required to build this project. You can run our test cases by simply running the main.py
+## Building the Project
+No dependencies are required to build this project. You can run our test cases by simply running main.py with
+```
+python3 main.py
+```
+You can try out different combinations of AIs/Manual Playing by editing the main.py file and uncommenting the right p1 and p2 assignment statements.
 
 ## Structure of the code
-Board.py is the basis of this project. It provides a representation of the game board for Mu Torere. The board is a list of integers with each element represents one spot\
-This class also contains basic operations of the game. Ex. find all valid moves, make move, and undo the previous move.\
+Board.py is the basis of this project. It provides a representation of the game board for Mu Torere. The board is a list of integers with each element representing a spot on the board and what is contained there.
 
-Player.py contains different type of players: manual player, randomly player, minimax player, alphabeta player, and two versions of hillclimbing player. All players depend on the board class\
-There is a simple version of heuristic which only takes center control into account (the player who has a piece at the center has a higher chance to win)\
-There is also a more complicated heuristics using several other properties other than the center control, such as number of movable pieces, if any of the pieces is next to an empty pit, and if a player's piece spread the board apart.\ 
+This class also contains basic operations of the game. Ex. find all valid moves, make move, and undo the previous move.
 
-main.py is where the main function locates. It also has several methods to test different type of players.\
-test_AI: this is a general testing methods that can test any types of 2 players and will let these 2 players play num_games times against each other and calculate the statistics\
-Other three test method are for a specific type of player (as indicated in the method name). User can decide how many games to run by changing the input, and it will calculate the statistics in the end\
+Player.py contains different type of players: manual player, random player, minimax player, alphabeta player, and a hillclimbing player. All players depend on the board class.
 
+For the AIs, we used a heuristic that takes into account 3 properties of a given board. We initially weighted the first property much higher than the other two, but came to find out this was incorrect after running the genetic algorithm (mentioned below).
 
+genetic.py just contains a class that is exactly an AlphaBeta player, but with input weights for the three properties. This is used in our implementation of the genetic algorithm.
 
+main.py is where the main function is located. It also contains the code implementing the genetic algorithm.
 
 
 

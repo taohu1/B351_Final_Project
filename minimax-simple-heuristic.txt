@@ -1,0 +1,5 @@
+Out of 1000 games, the MiniMax Player won 352 of them.
+Out of 1000 games, the Random Player won 0 of them.
+648 of the games ended in a tie (reached 500 moves without a winner).
+The average number of moves was 327.168.
+The total amount of time to play the 1000 games is 300.7540099620819.

@@ -1,0 +1,5 @@
+Out of 1000 games, the Hill Climbing Player won 901 of them.
+Out of 1000 games, the Random Player won 99 of them.
+0 of the games ended in a tie (reached 500 moves without a winner).
+The average number of moves was 25.979.
+The total amount of time to play the 1000 games is 2.1130940914154053.

@@ -1,0 +1,5 @@
+Out of 1000 games, the AlphaBeta Player won 999 of them.
+Out of 1000 games, the Random Player won 0 of them.
+1 of the games ended in a tie (reached 500 moves without a winner).
+The average number of moves was 65.863.
+The total amount of time to play the 1000 games is 36.243523836135864.
