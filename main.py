@@ -8,6 +8,80 @@ def randomize_weights(p):
   p.c2 = random.randint(0,10)
   p.c3 = random.randint(0,10)
 
+def generate_population(N):
+  pop = []
+  for i in range(N):
+    c1 = random.randint(0,100)
+    c2 = random.randint(0,100)
+    c3 = random.randint(0,100)
+    pop.append([c1,c2,c3])
+  return pop
+
+def fitness(pop, num_sims):
+  fit_list = []
+  for ls in pop:
+    b = board()
+    player = GAPlayer(b, ls[0], ls[1], ls[2])
+    opp = RandomPlayer(b)
+    ls_wr, opp_wr, avg_moves = test_GA(num_sims, player, opp)
+    fitness_of_ls = 1000 * ls_wr + (-1 * avg_moves + 500)
+    fit_list.append(fitness_of_ls)
+  return fit_list
+
+def next_generation(pop, fit_list):
+  # using top two
+  N = len(pop)
+  max_fitness = max(fit_list)
+  max_ind = fit_list.index(max_fitness)
+  father = pop.pop(max_ind)
+  fit_list.pop(max_ind)
+  max_fitness = max(fit_list)
+  max_ind = fit_list.index(max_fitness)
+  mother = pop.pop(max_ind)
+  fit_list.pop(max_ind)
+  new_pop = []
+  for ind in range(N):
+    rep_code = [random.randint(0,1), random.randint(0,1), random.randint(0,1)]
+    # ensure there is genetic material from both mom and dad
+    if 0 not in rep_code:
+      rand_ind = random.randint(0,2)
+      rep_code[rand_ind] = 0
+    if 1 not in rep_code:
+      rand_ind = random.randint(0,2)
+      rep_code[rand_ind] = 1
+    child = [-1, -1, -1]
+    if rep_code[0] == 0:
+      child[0] = father[0]
+    else:
+      child[0] = mother[0]
+    if rep_code[1] == 0:
+      child[1] = father[1]
+    else:
+      child[1] = mother[1]
+    if rep_code[2] == 0:
+      child[2] = father[2]
+    else:
+      child[2] = mother[2]
+    # mutation with rate of 1%
+    for i in range(len(child)):
+      rand_num = random.randint(1,100)
+      if (rand_num == 1):
+        child[i] = random.randint(0,10)
+    new_pop.append(child)
+  return new_pop
+
+def genetic_algorithm(num_gens, N, num_sims):
+  pop = generate_population(N)
+  fit_list = fitness(pop, num_sims)
+  for i in range(num_gens):
+    pop = next_generation(pop, fit_list)
+    fit_list = fitness(pop, num_sims)
+  max_fitness = max(fit_list)
+  max_ind = fit_list.index(max_fitness)
+  weights = pop[max_ind]
+  print("The weights found with a population size of " + str(N) + ", " + str(num_sims) + " simulations per element of population, and " + str(num_gens) + " generations are " + str(weights))
+  return weights
+
 def TournamentOfChampions(p1, p2, sims):
   print("Welcome to the Tournament of Champions!")
   bestc1 = None
@@ -42,6 +116,9 @@ def TournamentOfChampions(p1, p2, sims):
   print("The best win rate came from the GAPlayer with weights " + str(bestc1) + ", " + str(bestc2) + ", " + str(bestc3))
   print("The win rate for this player was " + str(max_wr))
   print("The average number of moves for this player is " + str(bestmoves))
+  
+  return bestc1, bestc2, bestc3, max_wr, bestmoves
+
 
 def test_GA(num_games, p1, p2):
   if isinstance(p1, GAPlayer):
@@ -122,12 +199,13 @@ if __name__ == "__main__":
     #p2 = HillClimbingPlayer_simple(b)
     #p2 = HillClimbingPlayer(b)
     # you can replace the first argument with the number of games you want to play 
-    test_AI(1000, p1, p2)
+    #test_AI(1000, p1, p2)
     c1 = random.randint(0,10)
     c2 = random.randint(0,10)
     c3 = random.randint(0,10)
     ga = GAPlayer(b, c1, c2, c3)
     ga_opp = RandomPlayer(b)
+    genetic_algorithm(10, 10, 10)
     #TournamentOfChampions(ga, ga_opp, 10)
     #test_GA(100, ga, ga_opp)
     #test_HillClimber(10000)
