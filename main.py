@@ -1,7 +1,7 @@
 from board import *
 from player import *
 
-
+# simulate num_games rounds of the game between two player
 def test_AI(num_games, p1, p2):
     p1wins = 0
     p2wins = 0
@@ -45,7 +45,7 @@ def test_AI(num_games, p1, p2):
     print("The average number of moves was " + str(totalmoves/num_games) + ".")
     print("The total amount of time to play the " + str(num_games) + " games is " + str(elapsed_time) + ".")
 
-
+# run the game num_games times among a hill climning player and a simple hill climbing player
 def test_HillClimber(num_games):
     randomwins = 0
     abwins = 0
@@ -76,6 +76,7 @@ def test_HillClimber(num_games):
     print("The average number of moves was " + str(totalmoves/num_games) + ".")
     print("The total amount of time to play the " + str(num_games) + " games is " + str(elapsed_time) + ".")
 
+# testing function for alphabeta player, will run the game num_games times.
 def test_AlphaBetaPlayer(num_games):
     randomwins = 0
     abwins = 0
@@ -118,6 +119,7 @@ def test_AlphaBetaPlayer(num_games):
     print("The average number of moves was " + str(totalmoves/num_games) + ".")
     print("The total amount of time to play the " + str(num_games) + " games is " + str(elapsed_time) + ".")
 
+# testing function for minimax player
 def test_MinimaxPlayer(num_games):
     randomwins = 0
     abwins = 0
