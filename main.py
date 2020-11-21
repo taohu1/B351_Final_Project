@@ -51,6 +51,7 @@ def test_GA(num_games, p1, p2):
   p1wr, p2wr, num_moves = test_AI(num_games, p1, p2)
   return p1wr, p2wr, num_moves
 
+# simulate num_games rounds of the game between two player
 def test_AI(num_games, p1, p2):
     p1wins = 0
     p2wins = 0

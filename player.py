@@ -1,5 +1,7 @@
 from board import *
 import itertools
+
+# a random player always randomly picks a move from the all valid moves list
 class RandomPlayer:
     def __init__(self, board):
         self.board = board
@@ -36,6 +38,7 @@ class ManualPlayer:
         mv = input("Where do you want to move it?\n")
         return int(pos), int(mv)
 
+# Minimax Player implementation, uses center-control as a logic for heuristic
 class MiniMaxPlayer:
   def __init__(self, board):
     self.board = board
@@ -92,7 +95,7 @@ class MiniMaxPlayer:
     return move[0], move[1]
     
 
-
+# Implementation of a AlphaBeta player, uses a more complicated heuristic which includes center control, moveable pieces and next_to_empty
 class AlphaBetaPlayer:
   p1_win = 1000
   tie = 0
@@ -249,7 +252,8 @@ class HillClimbingPlayer_simple:
           bestmove = current, move
       b.undo_move()
       return bestmove
-  
+
+# implementation for HillClimbing Player
 class HillClimbingPlayer:
   def __init__(self, board):
     self.board = board
