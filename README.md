@@ -1,6 +1,6 @@
 # B351_Final_Project
 ## How to build this project?
-No dependencies is required to build this project. You can run our test cases by simply running the main.py\
+No dependencies is required to build this project. You can run our test cases by simply running the main.py
 
 ## Structure of the code
 Board.py is the basis of this project. It provides a representation of the game board for Mu Torere. The board is a list of integers with each element represents one spot\
